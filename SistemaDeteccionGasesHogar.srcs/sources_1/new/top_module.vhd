@@ -10,6 +10,7 @@ entity top_module is
         VENT : out STD_LOGIC;
         LED_ZUM : out STD_LOGIC;
         ESP_S : out STD_LOGIC_VECTOR(1 downto 0);
+        led    : out STD_LOGIC_VECTOR(15 DOWNTO 0);
         an     : out STD_LOGIC_VECTOR(3 DOWNTO 0);
         seg    : out STD_LOGIC_VECTOR(6 DOWNTO 0);
         dp     : out STD_LOGIC
@@ -104,6 +105,7 @@ begin
     );
     
     xadc_value <= led_value(15 DOWNTO 4);
+    led <= led_value;
     
     inst_demux: DEMUX_1a2
     PORT MAP(
