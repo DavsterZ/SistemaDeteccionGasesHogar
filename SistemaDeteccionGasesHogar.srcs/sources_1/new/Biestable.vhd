@@ -9,6 +9,11 @@ end Biestable;
 architecture Behavioral of Biestable is
     signal qAux : STD_LOGIC := '0';
 begin
-    qAux <= NOT(qAux) WHEN CLK = '1' AND CLK'EVENT;
+    process(CLK)
+    begin
+        if rising_edge(CLK) then
+            qAux <= not qAux;
+        end if;
+    end process;
     Q <= qAux;
 end Behavioral;
