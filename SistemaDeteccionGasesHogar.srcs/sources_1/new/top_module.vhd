@@ -9,7 +9,10 @@ entity top_module is
         S_CLOCK1HZ : out STD_LOGIC;
         VENT : out STD_LOGIC;
         LED_ZUM : out STD_LOGIC;
-        ESP_S : out STD_LOGIC_VECTOR(1 downto 0)
+        ESP_S : out STD_LOGIC_VECTOR(1 downto 0);
+        an     : out STD_LOGIC_VECTOR(3 DOWNTO 0);
+        seg    : out STD_LOGIC_VECTOR(6 DOWNTO 0);
+        dp     : out STD_LOGIC
     );
 end top_module;
 
@@ -56,6 +59,16 @@ architecture Behavioral of top_module is
             seg1     : out std_logic_vector(6 downto 0);
             seg2     : out std_logic_vector(6 downto 0);
             seg3     : out std_logic_vector(6 downto 0)
+        );
+     end component;
+     
+     component display
+        port(
+            clk    : in  STD_LOGIC;
+            bin_in : in  STD_LOGIC_VECTOR(11 DOWNTO 0);
+            an     : out STD_LOGIC_VECTOR(3 DOWNTO 0);
+            seg    : out STD_LOGIC_VECTOR(6 DOWNTO 0);
+            dp     : out STD_LOGIC
         );
      end component;
      
@@ -116,22 +129,13 @@ begin
         salida => salida_reg_co2
     );
     
---    inst_display0 : display12Bit
---    PORT MAP(
---        bin_in => salida_reg_met,
---        seg0 => sSeg0_0,
---        seg1 => sSeg1_0,
---        seg2 => sSeg2_0,
---        seg3 => sSeg3_0
---    );
-    
-    inst_display1 : display12Bit
-    PORT MAP(
-        bin_in => salida_reg_co2,
-        seg0 => sSeg0_1,
-        seg1 => sSeg1_1,
-        seg2 => sSeg2_1,
-        seg3 => sSeg3_1
+    inst_display : display
+    PORT MAP (
+        clk     => CLK,
+        bin_in  => salida_reg_met,
+        an      => an,
+        seg     => seg,
+        dp      => dp
     );
     
     inst_comparador : Comparador
